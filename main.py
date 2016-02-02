@@ -152,7 +152,7 @@ class Engraver:
         gcode = ""
 
         gcode += "( Ditherfraes )\n"
-        gcode += "G94\nG21\nG90\nG64 P0.1\nF10.0\nM3\nG00 Z"+str(self.safez)+"\n\n\n"
+        gcode += "G94\nG21\nG90\nG64 P0.1\nF"+str(self.loweringspeed) + "\nM3\nG00 Z"+str(self.safez)+"\n\n\n"
 
         coordsList = []
         for x in range(image.width()):
