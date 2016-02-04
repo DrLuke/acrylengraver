@@ -110,6 +110,9 @@
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_7">
+               <property name="toolTip">
+                <string>The height of the engraved image after engraving.</string>
+               </property>
                <property name="text">
                 <string>Heigth</string>
                </property>
@@ -117,6 +120,9 @@
              </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_6">
+               <property name="toolTip">
+                <string>The width of the engraved image after engraving.</string>
+               </property>
                <property name="text">
                 <string>Width</string>
                </property>
@@ -125,7 +131,7 @@
              <item row="4" column="1">
               <widget class="QPushButton" name="buttonResetAspect">
                <property name="toolTip">
-                <string>Sets the image height so that the aspect ratio is identical to the image aspect ratio.</string>
+                <string>Sets the image height so that the aspect ratio is identical to the image's aspect ratio.</string>
                </property>
                <property name="text">
                 <string>Reset Aspect Ratio</string>
@@ -150,6 +156,9 @@
              </item>
              <item row="2" column="1">
               <widget class="QDoubleSpinBox" name="doubleSpinBoxHeight">
+               <property name="toolTip">
+                <string>The height of the engraved image after engraving.</string>
+               </property>
                <property name="prefix">
                 <string/>
                </property>
@@ -175,6 +184,9 @@
             <layout class="QGridLayout" name="gridLayout_3">
              <item row="0" column="1">
               <widget class="QDoubleSpinBox" name="doubleSpinBoxSafez">
+               <property name="toolTip">
+                <string>The height above the acrylic at which translations in the horizontal Plane will be performed.</string>
+               </property>
                <property name="decimals">
                 <number>1</number>
                </property>
@@ -195,6 +207,9 @@
              </item>
              <item row="1" column="1">
               <widget class="QDoubleSpinBox" name="doubleSpinBoxDepth">
+               <property name="toolTip">
+                <string>The depth to which the tool will be lowered to perform the engraving.</string>
+               </property>
                <property name="singleStep">
                 <double>0.100000000000000</double>
                </property>
@@ -227,6 +242,9 @@
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="0" column="1">
               <widget class="QSpinBox" name="spinBoxLoweringspeed">
+               <property name="toolTip">
+                <string>Speed at which the lowering into the acrylic happens.</string>
+               </property>
                <property name="value">
                 <number>20</number>
                </property>
@@ -241,16 +259,6 @@
                 <string>Lowering Speed</string>
                </property>
               </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="spinBox_2"/>
              </item>
             </layout>
            </widget>

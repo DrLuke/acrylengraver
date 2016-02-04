@@ -108,7 +108,7 @@ class Engraver:
                 self.ui.progressBar.setValue(50)
                 self.imageR = QImage()
                 self.imageR.load(self.imagePath[:-4] + "_R" + self.imagePath[-4:])
-                call(["convert", self.imagePath[:-4] + "_" + "R" + self.imagePath[-4:], "-remap", "pattern:gray50", self.imagePath[:-4] + "_R" + "_d" + self.imagePath[-4:]])
+                call(["convert", self.imagePath[:-4] + "_" + "R" + self.imagePath[-4:], "-colorspace", "Gray" ,"-ordered-dither", "o8x8" , self.imagePath[:-4] + "_R" + "_d" + self.imagePath[-4:]])
                 self.ui.progressBar.setValue(60)
                 self.imageRd = QImage()
                 self.imageRd.load(self.imagePath[:-4] + "_R" + "_d" + self.imagePath[-4:])
@@ -117,7 +117,7 @@ class Engraver:
                 self.ui.progressBar.setValue(70)
                 self.imageG = QImage()
                 self.imageG.load(self.imagePath[:-4] + "_G" + self.imagePath[-4:])
-                call(["convert", self.imagePath[:-4] + "_" + "G" + self.imagePath[-4:], "-remap", "pattern:gray50", self.imagePath[:-4] + "_G" + "_d" + self.imagePath[-4:]])
+                call(["convert", self.imagePath[:-4] + "_" + "G" + self.imagePath[-4:], "-colorspace", "Gray" ,"-ordered-dither", "o8x8", self.imagePath[:-4] + "_G" + "_d" + self.imagePath[-4:]])
                 self.ui.progressBar.setValue(80)
                 self.imageGd = QImage()
                 self.imageGd.load(self.imagePath[:-4] + "_G" + "_d" + self.imagePath[-4:])
@@ -126,7 +126,7 @@ class Engraver:
                 self.ui.progressBar.setValue(90)
                 self.imageB = QImage()
                 self.imageB.load(self.imagePath[:-4] + "_B" + self.imagePath[-4:])
-                call(["convert", self.imagePath[:-4] + "_" + "B" + self.imagePath[-4:], "-remap", "pattern:gray50", self.imagePath[:-4] + "_B" + "_d" + self.imagePath[-4:]])
+                call(["convert", self.imagePath[:-4] + "_" + "B" + self.imagePath[-4:], "-colorspace", "Gray" ,"-ordered-dither", "o8x8", self.imagePath[:-4] + "_B" + "_d" + self.imagePath[-4:]])
                 self.ui.progressBar.setValue(100)
                 self.imageBd = QImage()
                 self.imageBd.load(self.imagePath[:-4] + "_B" + "_d" + self.imagePath[-4:])
@@ -145,14 +145,21 @@ class Engraver:
         filedialog.setDefaultSuffix("nc")
 
         if(filedialog.exec()):
-            with open(filedialog.selectedFiles()[0], "w") as f:
+            with open(os.path.splitext(filedialog.selectedFiles()[0])[0] + "_r" + os.path.splitext(filedialog.selectedFiles()[0])[1], "w") as f:
                 f.write(self.generateGCode(self.imageRd))
+            with open(os.path.splitext(filedialog.selectedFiles()[0])[0] + "_g" + os.path.splitext(filedialog.selectedFiles()[0])[1], "w") as f:
+                f.write(self.generateGCode(self.imageGd))
+            with open(os.path.splitext(filedialog.selectedFiles()[0])[0] + "_b" + os.path.splitext(filedialog.selectedFiles()[0])[1], "w") as f:
+                f.write(self.generateGCode(self.imageBd))
 
     def generateGCode(self, image):
         gcode = ""
 
         gcode += "( Ditherfraes )\n"
-        gcode += "G94\nG21\nG90\nG64 P0.1\nF"+str(self.loweringspeed) + "\nM3\nG00 Z"+str(self.safez)+"\n\n\n"
+        if self.loweringspeed == 0:
+            gcode += "G94\nG21\nG90\nG64 P0.1\nF100.0\nM3\nG00 Z"+str(self.safez)+"\n\n\n"
+        else:
+            gcode += "G94\nG21\nG90\nG64 P0.1\nF"+str(self.loweringspeed) + "\nM3\nG00 Z"+str(self.safez)+"\n\n\n"
 
         coordsList = []
         for x in range(image.width()):
@@ -168,7 +175,10 @@ class Engraver:
 
         for coord in coordsList:
             gcode += "G0 X" + str("%.2f" % coord[0]) + " Y" + str("%.2f" % coord[1]) + "\n"
-            gcode += "G1 Z-" + str("%.2f" % self.depth) + "\n"
+            if self.loweringspeed == 0:
+                gcode += "G0 Z-" + str("%.2f" % self.depth) + "\n"
+            else:
+                gcode += "G1 Z-" + str("%.2f" % self.depth) + "\n"
             gcode += "G0 Z" + str("%.2f" % self.safez) + "\n\n"
 
         gcode += "M5\n"
