@@ -139,7 +139,7 @@ class Engraver:
             self.showImage()
 
     def onButtonGeneratePressed(self):
-        filedialog = QFileDialog(caption="Save GCode as", directory=os.path.splitext(self.imagePath)[0] + ".nc", filter="GCode Files (*.nc);;All Files (*)")
+        filedialog = QFileDialog(caption="Save GCode as", directory=os.path.splitext(self.imagePath)[0] + ".ngc", filter="GCode Files (*.ngc);;All Files (*)")
         filedialog.setFileMode(QFileDialog.AnyFile)
         filedialog.setAcceptMode(QFileDialog.AcceptSave)
         filedialog.setDefaultSuffix("nc")
